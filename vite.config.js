@@ -39,7 +39,8 @@ export default defineConfig({
         quienesSomos: resolve(__dirname, 'pages/quienes-somos.html'),
         comoTrabajamos: resolve(__dirname, 'pages/como-trabajamos.html'),
         preguntas: resolve(__dirname, 'pages/preguntas.html'),
-        contacto: resolve(__dirname, 'pages/contacto.html')
+        contacto: resolve(__dirname, 'pages/contacto.html'),
+        guiaDiseno: resolve(__dirname, 'pages/guia-diseno.html')
       },
       output: {
         entryFileNames: 'assets/[name].[hash].js',
