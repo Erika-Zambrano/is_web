@@ -349,7 +349,8 @@
       <option value="contacto.html">Contacto</option>
     </select>
     <div class="topbar-actions">
-      <button class="btn-reset" id="btnReset">Resetear</button>
+      <button class="btn-reset" id="btnResetColors">Resetear colores</button>
+      <button class="btn-reset" id="btnResetNotes">Resetear notas</button>
       <button class="btn-export" id="btnExport">Exportar JSON</button>
     </div>
   </div>
@@ -374,6 +375,18 @@
   </div>
 
   <div class="toast" id="toast"></div>
+
+  <!-- Modal de confirmación de reset -->
+  <div class="modal-backdrop" id="resetBackdrop">
+    <div class="modal">
+      <p class="modal-title" id="resetModalTitle">⚠️ ¿Resetear?</p>
+      <p class="modal-subtitle" id="resetModalSubtitle" style="margin-top:0.5rem;line-height:1.6;"></p>
+      <div class="modal-actions" style="margin-top:1.25rem;">
+        <button class="modal-cancel" id="resetCancel">Cancelar</button>
+        <button class="modal-save" id="resetConfirm" style="background:#f87171;">Sí, resetear</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Modal de nota (editar / ver) -->
   <div class="modal-backdrop" id="modalBackdrop">
@@ -405,10 +418,18 @@
       { label: 'Borde',              token: '--border',           default: '#e0d8f5' },
     ];
 
-    const state = {
-      tokens: Object.fromEntries(TOKENS.map(t => [t.token, t.default])),
-      notes: {}
-    };
+    const pageStates = {};
+    let currentPage = 'index.html';
+
+    function getPageState(page) {
+      if (!pageStates[page]) {
+        pageStates[page] = {
+          tokens: Object.fromEntries(TOKENS.map(t => [t.token, t.default])),
+          notes: {}
+        };
+      }
+      return pageStates[page];
+    }
 
     const iframe     = document.getElementById('preview');
     const tokenList  = document.getElementById('tokenList');
@@ -418,8 +439,9 @@
     // --- Render token controls with Pickr ---
     function renderTokens() {
       tokenList.innerHTML = '';
+      const ps = getPageState(currentPage);
       TOKENS.forEach(({ label, token }) => {
-        const value = state.tokens[token];
+        const value = ps.tokens[token];
 
         const row = document.createElement('div');
         row.className = 'token-row';
@@ -459,7 +481,7 @@
 
         function applyHex(hex) {
           if (!/^#[0-9a-fA-F]{6}$/.test(hex)) return;
-          state.tokens[token] = hex;
+          getPageState(currentPage).tokens[token] = hex;
           hexInput.value = hex;
           pickr.setColor(hex, true);
           sendToken(token, hex);
@@ -484,7 +506,7 @@
 
     // --- Notes ---
     function renderNotes() {
-      const entries = Object.entries(state.notes).filter(([, v]) => v);
+      const entries = Object.entries(getPageState(currentPage).notes).filter(([, v]) => v);
       if (!entries.length) {
         notesList.innerHTML = '<p class="notes-empty">Haz click en el botón <strong style="color:var(--panel-accent)">+</strong> de cada sección para agregar una nota.</p>';
         return;
@@ -512,8 +534,9 @@
     }
 
     function sendAllTokens() {
-      iframe.contentWindow?.postMessage({ type: 'SET_ALL_TOKENS', tokens: state.tokens }, '*');
-      iframe.contentWindow?.postMessage({ type: 'SHOW_NOTES', notes: state.notes }, '*');
+      const ps = getPageState(currentPage);
+      iframe.contentWindow?.postMessage({ type: 'SET_ALL_TOKENS', tokens: ps.tokens }, '*');
+      iframe.contentWindow?.postMessage({ type: 'SHOW_NOTES', notes: ps.notes }, '*');
     }
 
     iframe.addEventListener('load', () => setTimeout(sendAllTokens, 100));
@@ -557,7 +580,7 @@
 
     function saveNote(note) {
       if (!modalSectionId) return;
-      state.notes[modalSectionId] = note;
+      getPageState(currentPage).notes[modalSectionId] = note;
       iframe.contentWindow?.postMessage({ type: 'NOTE_SAVED', sectionId: modalSectionId, note }, '*');
       renderNotes();
       closeModal();
@@ -567,7 +590,12 @@
     modalDelete.addEventListener('click', () => saveNote(''));
     modalCancel.addEventListener('click', closeModal);
     modalBackdrop.addEventListener('click', (e) => { if (e.target === modalBackdrop) closeModal(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+        resetBackdrop.classList.remove('open');
+      }
+    });
 
     window.addEventListener('message', ({ data }) => {
       if (data?.type === 'OPEN_NOTE_MODAL') openModal(data.sectionId, data.current);
@@ -575,19 +603,61 @@
 
     // --- Page selector ---
     document.getElementById('pageSelect').addEventListener('change', (e) => {
-      iframe.src = e.target.value;
+      currentPage = e.target.value;
+      iframe.src = currentPage;
+      renderTokens();
+      renderNotes();
     });
 
-    // --- Reset ---
-    document.getElementById('btnReset').addEventListener('click', () => {
-      TOKENS.forEach(t => { state.tokens[t.token] = t.default; });
-      renderTokens();
-      sendAllTokens();
+    // --- Reset (con confirmación) ---
+    const resetBackdrop   = document.getElementById('resetBackdrop');
+    const resetModalTitle = document.getElementById('resetModalTitle');
+    const resetModalSub   = document.getElementById('resetModalSubtitle');
+    let   resetMode       = null; // 'colors' | 'notes'
+
+    function openResetModal(mode) {
+      resetMode = mode;
+      if (mode === 'colors') {
+        resetModalTitle.textContent = '⚠️ ¿Resetear los colores?';
+        resetModalSub.textContent   = 'Se perderán todos los cambios de color. Las notas no se borran.';
+      } else {
+        resetModalTitle.textContent = '⚠️ ¿Resetear las notas?';
+        resetModalSub.textContent   = 'Se eliminarán todas las notas de las secciones. Los colores no cambian.';
+      }
+      resetBackdrop.classList.add('open');
+    }
+
+    document.getElementById('btnResetColors').addEventListener('click', () => openResetModal('colors'));
+    document.getElementById('btnResetNotes').addEventListener('click',  () => openResetModal('notes'));
+
+    document.getElementById('resetCancel').addEventListener('click', () => {
+      resetBackdrop.classList.remove('open');
+    });
+
+    document.getElementById('resetConfirm').addEventListener('click', () => {
+      const ps = getPageState(currentPage);
+      if (resetMode === 'colors') {
+        TOKENS.forEach(t => { ps.tokens[t.token] = t.default; });
+        renderTokens();
+        sendAllTokens();
+        showToast('Colores reseteados');
+      } else {
+        Object.keys(ps.notes).forEach(k => delete ps.notes[k]);
+        iframe.contentWindow?.postMessage({ type: 'SHOW_NOTES', notes: {} }, '*');
+        renderNotes();
+        showToast('Notas eliminadas');
+      }
+      resetBackdrop.classList.remove('open');
+    });
+
+    resetBackdrop.addEventListener('click', (e) => {
+      if (e.target === resetBackdrop) resetBackdrop.classList.remove('open');
     });
 
     // --- Export ---
     document.getElementById('btnExport').addEventListener('click', () => {
-      const json = JSON.stringify({ tokens: state.tokens, notes: state.notes }, null, 2);
+      const ps = getPageState(currentPage);
+      const json = JSON.stringify({ page: currentPage, tokens: ps.tokens, notes: ps.notes }, null, 2);
       const blob = new Blob([json], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');

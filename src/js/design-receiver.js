@@ -16,6 +16,7 @@ if (window.self !== window.top) {
     }
 
     if (data.type === 'SHOW_NOTES') {
+      Object.keys(notes).forEach(k => delete notes[k]);
       Object.assign(notes, data.notes || {});
       renderNoteButtons();
     }
