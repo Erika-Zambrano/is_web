@@ -1,0 +1,160 @@
+/* ============================================
+   Component Library — estilos de componentes
+   Usa los tokens definidos en styles.css
+   ============================================ */
+
+/* --- ez-button --- */
+ez-button {
+  display: inline-flex;
+}
+
+ez-button .ez-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+  min-width: fit-content;
+}
+
+ez-button .ez-btn:active {
+  transform: scale(0.98);
+}
+
+ez-button .ez-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+ez-button[variant="primary"] .ez-btn {
+  background: var(--accent);
+  color: white;
+}
+
+ez-button[variant="primary"] .ez-btn:hover {
+  background: var(--accent-hover);
+}
+
+ez-button[variant="ghost"] .ez-btn {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+ez-button[variant="ghost"] .ez-btn:hover {
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+
+ez-button[size="large"] .ez-btn {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+}
+
+/* --- ez-tag (pill / badge) --- */
+ez-tag {
+  display: inline-block;
+}
+
+ez-tag .ez-tag {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 100px;
+}
+
+/* --- ez-card --- */
+ez-card {
+  display: block;
+}
+
+ez-card .ez-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.5);
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+ez-card[interactive] .ez-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+ez-card[interactive] .ez-card:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-color: var(--accent);
+}
+
+ez-card[interactive] .ez-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-color: var(--accent);
+}
+
+ez-card .ez-card-label {
+  position: absolute;
+  top: -10px;
+  left: 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  background: var(--bg);
+  padding: 0 0.5rem;
+}
+
+ez-card .ez-card-body {
+  margin: 0;
+}
+
+/* --- ez-section-title --- */
+ez-section-title {
+  display: block;
+}
+
+ez-section-title .ez-section-title {
+  margin: 0 0 3rem;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  text-align: center;
+  letter-spacing: -0.02em;
+}
+
+/* --- ez-container --- */
+ez-container {
+  display: block;
+  width: 100%;
+  max-width: 64rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+ez-container[size="narrow"] {
+  max-width: 36rem;
+}
+
+ez-container[size="wide"] {
+  max-width: 80rem;
+}

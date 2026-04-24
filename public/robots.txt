@@ -1,0 +1,13 @@
+# robots.txt para IS, Art Sport
+# Permite a todos los buscadores indexar el sitio completo
+
+User-agent: *
+Allow: /
+
+# Bloquear archivos innecesarios
+Disallow: /components/
+Disallow: /js/
+Disallow: /*.pdf$
+
+# Sitemap
+Sitemap: https://tudominio.com/sitemap.xml

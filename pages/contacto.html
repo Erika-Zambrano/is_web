@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto — IS, Art Sport</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/styles.css">
+</head>
+<body>
+  <div id="main-header"></div>
+
+  <main id="main">
+    <section class="contacto">
+      <ez-section-title>Contacto</ez-section-title>
+      <div class="contacto-wrap">
+        <div class="contacto-redes">
+          <p class="contacto-redes-titulo">Síguenos</p>
+          <div class="contacto-redes-links">
+            <a href="#" class="contacto-redes-link" aria-label="Instagram">Instagram</a>
+          </div>
+        </div>
+        <div class="contacto-form-box">
+          <p class="contacto-form-intro">Escríbenos y te respondemos al correo.</p>
+          <form class="contacto-form" action="https://formspree.io/f/TU_FORMSPREE_ID" method="post" id="form-contacto">
+            <input type="hidden" name="_subject" value="Nuevo mensaje desde IS, Art Sport">
+            <label class="contacto-label" for="nombre">
+              <span class="contacto-label-text">Nombre <span class="contacto-req">*</span></span>
+              <input id="nombre" type="text" name="nombre" required autocomplete="name">
+            </label>
+            <label class="contacto-label" for="instagram">
+              <span class="contacto-label-text">Instagram <span class="contacto-req">*</span></span>
+              <input id="instagram" type="text" name="instagram" required placeholder="@tu_usuario">
+            </label>
+            <label class="contacto-label" for="email">
+              <span class="contacto-label-text">E-mail <span class="contacto-req">*</span></span>
+              <input id="email" type="email" name="email" required autocomplete="email">
+            </label>
+            <label class="contacto-label" for="mensaje">
+              <span class="contacto-label-text">Mensaje <span class="contacto-req">*</span></span>
+              <textarea id="mensaje" name="mensaje" rows="4" placeholder="Escribe aquí..." required></textarea>
+            </label>
+            <label class="contacto-label contacto-checkbox" for="privacidad">
+              <input id="privacidad" type="checkbox" name="privacidad" required>
+              <span>He leído y acepto los <a href="Nearpod%20-%20Lesson%20Builder.pdf" target="_blank" rel="noopener">Términos de Privacidad</a> de IS.</span>
+            </label>
+            <button type="submit" class="contacto-submit" form="form-contacto">
+              Enviar
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="main-footer"></div>
+
+  <script type="module" src="/src/components/index.js"></script>
+  <script type="module" src="/src/js/include-layout.js"></script>
+  <script type="module" src="/src/js/main.js"></script>
+</body>
+</html>

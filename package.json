@@ -1,0 +1,39 @@
+{
+  "name": "is-art-sport",
+  "version": "1.0.0",
+  "description": "Landing page para IS Art Sport - Programas de entrenamiento personalizados",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "dev:simple": "npx http-server -p 8000 -o",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "lint": "eslint src/js/ src/components/",
+    "format": "prettier --write src/js/ src/components/ src/styles/"
+  },
+  "keywords": [
+    "fitness",
+    "landing-page",
+    "web-components",
+    "entrenamiento",
+    "pole-dance"
+  ],
+  "author": "IS, Art Sport",
+  "license": "UNLICENSED",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@vitest/ui": "^1.6.1",
+    "eslint": "^10.2.1",
+    "eslint-config-prettier": "^10.1.8",
+    "happy-dom": "^14.12.3",
+    "prettier": "^3.8.3",
+    "vite": "^5.0.0",
+    "vite-plugin-static-copy": "^1.0.6",
+    "vitest": "^1.6.1"
+  }
+}

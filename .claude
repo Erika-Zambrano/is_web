@@ -1,0 +1,31 @@
+# Reglas del proyecto IS_web
+
+Este proyecto es una **base/plantilla**. No des por definitivo nada visual ni de contenido.
+
+## Lo que va a cambiar (no lo des por fijo)
+
+- **Estilos y colores**: paleta, fondos, bordes, temas. Es solo una base.
+- **Tipografías**: fuentes actuales son placeholder.
+- **Fotos e imágenes**: URLs (p. ej. Unsplash) y rutas; se sustituirán.
+- **Textos y copy**: Lorem ipsum, taglines, descripciones; todo es reemplazable.
+- **Integraciones**: ID de Formspree, enlaces de privacidad, redes sociales, etc.
+
+## Enfoque: todo con componentes
+
+- **Trabajo con componentes.** Siempre que sea posible, implementar y reutilizar **Web Components** (custom elements) en lugar de repetir HTML y clases.
+- Si algo se repite o se puede encapsular (botón, card, título, tag, contenedor, bloque de contacto, etc.), **crear o usar un componente** en `components/`.
+- En el HTML, preferir `<ez-*>` y futuros componentes frente a divs/span con muchas clases.
+
+## Lo que se debe mantener (estructura y organización)
+
+- Estructura HTML semántica y secciones (hero, features, contacto, etc.).
+- Componentes Web en `components/` (ez-button, ez-card, ez-section-title, ez-tag, ez-container): API y comportamiento; estilos pueden cambiar.
+- Uso de variables CSS para tema/design system.
+- JS mínimo (scroll del header, menú móvil); sin frameworks.
+- Separación: `styles.css` = design system + layout global; `components/components.css` = estilos de componentes.
+
+## Cómo trabajar aquí
+
+- Al proponer cambios de diseño, usar variables CSS cuando tenga sentido para facilitar cambios futuros.
+- No asumir que el look actual (oscuro, naranja, etc.) es definitivo; el usuario lo cambiará.
+- Aplicar estas reglas por defecto; no hace falta que el usuario repita que "todo va a cambiar".
