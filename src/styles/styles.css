@@ -3,20 +3,21 @@
 
 /* --- Design system --- */
 :root {
-  --bg: #0c0b0a;
-  --bg-soft: #141210;
-  --surface: #1c1917;
-  --text: #fafaf9;
-  --text-muted: #a8a29e;
-  --accent: #ea580c;
-  --accent-hover: #f97316;
-  --accent-soft: rgba(234, 88, 12, 0.15);
-  --border: #292524;
+  --bg: #1E1050;
+  --bg-soft: #261464;
+  --surface: #301978;
+  --text: #ffffff;
+  --text-muted: #c4aaee;
+  --accent: #E84B7A;
+  --accent-hover: #f06090;
+  --accent-soft: rgba(232, 75, 122, 0.15);
+  --accent-secondary: #00C9A7;
+  --border: #4a2e96;
   --radius: 12px;
   --radius-lg: 20px;
   --font-head: 'Syne', sans-serif;
   --font-body: 'DM Sans', system-ui, sans-serif;
-  --color-success: #66cc66;
+  --color-success: #00C9A7;
   --color-error: #f87171;
 }
 
@@ -120,7 +121,7 @@ ez-card[interactive]:focus-within {
   align-items: center;
   justify-content: space-between;
   padding: 1rem 1.5rem;
-  background: rgba(12, 11, 10, 0.8);
+  background: rgba(30, 16, 80, 0.8);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid transparent;
   transition: border-color 0.2s, background 0.2s;
@@ -288,7 +289,7 @@ ez-card[interactive]:focus-within {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(12, 11, 10, 0.5) 0%, rgba(12, 11, 10, 0.85) 100%);
+  background: linear-gradient(to bottom, rgba(30, 16, 80, 0.5) 0%, rgba(30, 16, 80, 0.85) 100%);
 }
 
 .hero-bg-video iframe {
@@ -538,7 +539,7 @@ ez-card[interactive]:focus-within {
 .comparativa-planes {
   margin-top: 3rem;
   overflow-x: auto;
-  background: #1c1c1e;
+  background: var(--surface);
   border-radius: 18px;
   padding: 1.75rem 1.5rem;
   border: 1px solid var(--border);
@@ -588,7 +589,7 @@ ez-card[interactive]:focus-within {
 
 .comparativa-planes thead th.comparativa-th-plan {
   width: 24%;
-  background: #333;
+  background: var(--bg-soft);
   color: var(--text);
   padding: 0.875rem 1rem;
   border-radius: 12px;
@@ -602,9 +603,9 @@ ez-card[interactive]:focus-within {
 }
 
 .comparativa-planes thead th.comparativa-th-recomendado {
-  background: linear-gradient(145deg, #3d3a36 0%, #2d2a26 100%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08);
+  background: linear-gradient(145deg, var(--accent-soft) 0%, rgba(232, 75, 122, 0.25) 100%);
+  border: 1px solid rgba(232, 75, 122, 0.4);
+  box-shadow: 0 0 0 1px rgba(232, 75, 122, 0.15);
 }
 
 .comparativa-planes thead th .comparativa-th-badge {
@@ -694,28 +695,28 @@ ez-card[interactive]:focus-within {
   font-size: 0.9375rem;
   font-weight: 600;
   color: var(--text);
-  background: #333;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
   border-radius: 12px;
   text-decoration: none;
   transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
 }
 
 .comparativa-planes .comparativa-btn:hover {
-  background: #404040;
+  background: var(--surface);
   transform: translateY(-1px);
 }
 
 .comparativa-planes .comparativa-btn-primary {
-  background: #4CAF50;
+  background: var(--accent);
   color: #fff;
   border: none;
-  box-shadow: 0 4px 14px rgba(76, 175, 80, 0.4);
+  box-shadow: 0 4px 14px rgba(232, 75, 122, 0.4);
 }
 
 .comparativa-planes .comparativa-btn-primary:hover {
-  background: #43a047;
-  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.45);
+  background: var(--accent-hover);
+  box-shadow: 0 6px 20px rgba(232, 75, 122, 0.45);
 }
 
 .comparativa-planes .comparativa-btn-icon {
@@ -992,19 +993,19 @@ ez-card .ez-card-body p {
 
 .faq-item {
   background: var(--surface);
-  border: 1px solid #2d2b28;
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .faq-item:hover {
-  border-color: #3d3a36;
+  border-color: var(--accent-secondary);
 }
 
 .faq-item[open] {
-  border-color: rgba(234, 88, 12, 0.6);
-  box-shadow: 0 0 0 1px rgba(234, 88, 12, 0.2), 0 4px 20px -4px rgba(0, 0, 0, 0.4);
+  border-color: rgba(232, 75, 122, 0.6);
+  box-shadow: 0 0 0 1px rgba(232, 75, 122, 0.2), 0 4px 20px -4px rgba(0, 0, 0, 0.4);
 }
 
 .faq-question {
@@ -1042,8 +1043,8 @@ ez-card .ez-card-body p {
 
 .faq-item[open] .faq-question::before {
   transform: rotate(45deg);
-  border-right-color: #60a5fa;
-  border-bottom-color: #60a5fa;
+  border-right-color: var(--accent-secondary);
+  border-bottom-color: var(--accent-secondary);
 }
 
 .faq-question:hover {
@@ -1349,7 +1350,7 @@ ez-card .ez-card-body p {
 /* --- Mejoras de contraste para WCAG AA --- */
 @media (prefers-contrast: more) {
   :root {
-    --text-muted: #c7c2bd;
-    --border: #3d3a36;
+    --text-muted: #d8c8f5;
+    --border: #6040b0;
   }
 }
