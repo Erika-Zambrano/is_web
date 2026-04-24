@@ -3,6 +3,7 @@
 
 /* --- Shoelace tokens — mapear paleta del proyecto --- */
 :root {
+  /* Primary: coral/rosa */
   --sl-color-primary-50:  #fff0f4;
   --sl-color-primary-100: #fde0e8;
   --sl-color-primary-200: #fbbdd0;
@@ -14,6 +15,22 @@
   --sl-color-primary-800: #8f2143;
   --sl-color-primary-900: #6b1832;
   --sl-color-primary-950: #450f20;
+
+  /* Neutral: tonos morado/lila en lugar del azul-gris por defecto */
+  --sl-color-neutral-0:   #ffffff;
+  --sl-color-neutral-50:  #f5f3ff;
+  --sl-color-neutral-100: #ede8ff;
+  --sl-color-neutral-200: #ddd5ff;
+  --sl-color-neutral-300: #c4b5fd;
+  --sl-color-neutral-400: #a78bfa;
+  --sl-color-neutral-500: #8b6fd4;
+  --sl-color-neutral-600: #6b5b8a;
+  --sl-color-neutral-700: #4a3a6a;
+  --sl-color-neutral-800: #301958;
+  --sl-color-neutral-900: #1a1030;
+  --sl-color-neutral-950: #0d0820;
+  --sl-color-neutral-1000: #000000;
+
   --sl-border-radius-medium: 12px;
   --sl-border-radius-large: 20px;
   --sl-font-sans: 'DM Sans', system-ui, sans-serif;
@@ -1309,6 +1326,45 @@ sl-card.card-interactive::part(base):hover {
 sl-button::part(base) {
   font-family: var(--font-body);
   font-weight: 600;
+  border-radius: var(--radius);
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
+}
+
+sl-button::part(base):active {
+  transform: scale(0.98);
+}
+
+/* Primary */
+sl-button[variant="primary"]::part(base) {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+sl-button[variant="primary"]::part(base):hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: #fff;
+}
+
+/* Default outline (ghost) */
+sl-button[variant="default"][outline]::part(base) {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text-muted);
+}
+
+sl-button[variant="default"][outline]::part(base):hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Focus visible — sin azul */
+sl-button::part(base):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  box-shadow: none;
 }
 
 /* --- Form messages --- */
