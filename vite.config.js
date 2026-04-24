@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 export default defineConfig({
   base: '/is_web/',
@@ -48,6 +49,17 @@ export default defineConfig({
     },
     chunkSizeWarningLimit: 1000
   },
+
+  plugins: [
+    viteStaticCopy({
+      targets: [
+        {
+          src: 'node_modules/@shoelace-style/shoelace/dist/assets',
+          dest: 'shoelace'
+        }
+      ]
+    })
+  ],
 
   optimizeDeps: {
     include: []
