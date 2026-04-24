@@ -37,6 +37,7 @@
     "vitest": "^1.6.1"
   },
   "dependencies": {
-    "@shoelace-style/shoelace": "^2.20.1"
+    "@shoelace-style/shoelace": "^2.20.1",
+    "@simonwep/pickr": "^1.9.1"
   }
 }

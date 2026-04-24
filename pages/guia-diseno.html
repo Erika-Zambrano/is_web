@@ -3,284 +3,679 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Guía de Diseño — IS, Art Sport</title>
+  <title>Panel de Diseño — IS, Art Sport</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/src/styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    .guia { max-width: 52rem; margin: 0 auto; padding: 6rem 1.5rem 4rem; }
-    .guia h1 { font-family: var(--font-head); font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; margin: 0 0 0.5rem; color: var(--text); }
-    .guia .subtitle { color: var(--text-muted); font-size: 1rem; margin: 0 0 3rem; }
-    .guia h2 { font-family: var(--font-head); font-size: 1.25rem; font-weight: 700; margin: 3rem 0 1rem; color: var(--accent); letter-spacing: -0.01em; border-bottom: 2px solid var(--border); padding-bottom: 0.5rem; }
-    .guia h3 { font-family: var(--font-head); font-size: 1rem; font-weight: 600; margin: 1.5rem 0 0.75rem; color: var(--text); }
-    .guia p { color: var(--text-muted); line-height: 1.7; margin: 0 0 1rem; }
-    .guia p strong { color: var(--text); }
-    .guia ul { color: var(--text-muted); padding-left: 1.25rem; line-height: 1.8; }
-    .guia a { color: var(--accent); }
-    .note { background: var(--accent-soft); border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; padding: 0.75rem 1rem; margin: 1rem 0; font-size: 0.9375rem; color: var(--text-muted); }
-    .note strong { color: var(--accent); }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* Tablas */
-    table { width: 100%; border-collapse: collapse; margin: 1rem 0 2rem; font-size: 0.9rem; }
-    th { background: var(--surface); color: var(--text); font-family: var(--font-head); font-weight: 600; text-align: left; padding: 0.6rem 0.875rem; border: 1px solid var(--border); font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.05em; }
-    td { padding: 0.6rem 0.875rem; border: 1px solid var(--border); color: var(--text-muted); vertical-align: top; }
-    td:first-child { font-weight: 500; color: var(--text); white-space: nowrap; }
-    td code { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 0.1rem 0.4rem; font-size: 0.8125rem; color: var(--accent); font-family: monospace; }
-    .color-cell { display: flex; align-items: center; gap: 0.5rem; }
-    .color-swatch { width: 20px; height: 20px; border-radius: 4px; border: 1px solid var(--border); flex-shrink: 0; }
+    :root {
+      --panel-bg: #1a1030;
+      --panel-surface: #261848;
+      --panel-border: #3a2860;
+      --panel-text: #f0ecff;
+      --panel-muted: #9080b8;
+      --panel-accent: #E84B7A;
+      --panel-width: 320px;
+    }
 
-    /* Swatch grid */
-    .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 0.75rem; margin: 1rem 0 2rem; }
-    .swatch-item { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
-    .swatch-color { height: 60px; }
-    .swatch-label { padding: 0.4rem 0.6rem; background: var(--surface); font-size: 0.75rem; }
-    .swatch-name { font-weight: 600; color: var(--text); display: block; }
-    .swatch-hex { color: var(--text-muted); font-family: monospace; }
-    .swatch-var { color: var(--accent); font-family: monospace; font-size: 0.7rem; display: block; }
+    html, body { height: 100%; overflow: hidden; }
 
-    /* Secciones de páginas */
-    .page-map { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin: 1rem 0 2rem; }
-    .page-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; }
-    .page-card .page-name { font-family: var(--font-head); font-weight: 700; font-size: 0.9375rem; color: var(--text); margin: 0 0 0.25rem; }
-    .page-card .page-file { font-family: monospace; font-size: 0.75rem; color: var(--accent); margin: 0 0 0.5rem; }
-    .page-card .page-desc { font-size: 0.8125rem; color: var(--text-muted); margin: 0; line-height: 1.5; }
+    body {
+      display: flex;
+      flex-direction: column;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--panel-bg);
+      color: var(--panel-text);
+    }
 
-    /* Entrega */
-    .entrega-opciones { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0 2rem; }
-    .entrega-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; }
-    .entrega-card .opcion { font-family: var(--font-head); font-weight: 700; font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin: 0 0 0.5rem; }
-    .entrega-card p { font-size: 0.875rem; margin: 0; }
+    /* --- Top bar --- */
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.6rem 1rem;
+      background: var(--panel-bg);
+      border-bottom: 1px solid var(--panel-border);
+      z-index: 10;
+      flex-shrink: 0;
+    }
+    .topbar-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.9375rem;
+      color: var(--panel-accent);
+      white-space: nowrap;
+    }
+    .topbar-page-select {
+      background: var(--panel-surface);
+      border: 1px solid var(--panel-border);
+      color: var(--panel-text);
+      border-radius: 8px;
+      padding: 0.35rem 0.6rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    .topbar-page-select:focus { outline: 2px solid var(--panel-accent); }
+    .topbar-actions { display: flex; gap: 0.5rem; margin-left: auto; }
+    .btn-export, .btn-reset {
+      padding: 0.4rem 0.875rem;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: background 0.15s;
+    }
+    .btn-export { background: var(--panel-accent); color: #fff; }
+    .btn-export:hover { background: #f06090; }
+    .btn-reset { background: var(--panel-surface); color: var(--panel-muted); border: 1px solid var(--panel-border); }
+    .btn-reset:hover { color: var(--panel-text); }
 
-    code { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 0.1rem 0.4rem; font-size: 0.875rem; font-family: monospace; color: var(--accent); }
-    pre { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; overflow-x: auto; font-size: 0.875rem; color: var(--text); line-height: 1.6; margin: 0.75rem 0 1.5rem; }
+    /* --- Main layout --- */
+    .main { display: flex; flex: 1; overflow: hidden; }
+
+    /* --- Sidebar --- */
+    .sidebar {
+      width: var(--panel-width);
+      flex-shrink: 0;
+      background: var(--panel-bg);
+      border-right: 1px solid var(--panel-border);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-track { background: transparent; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--panel-border); border-radius: 4px; }
+    .sidebar-section { padding: 1rem; border-bottom: 1px solid var(--panel-border); }
+    .sidebar-section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--panel-muted);
+      margin-bottom: 0.875rem;
+    }
+
+    /* --- Color tokens --- */
+    .token-list { display: flex; flex-direction: column; gap: 0.625rem; }
+    .token-row { display: flex; align-items: center; gap: 0.625rem; }
+    .token-swatch {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      border: 2px solid var(--panel-border);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .token-info { flex: 1; min-width: 0; }
+    .token-name {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--panel-text);
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .token-var { font-size: 0.6875rem; color: var(--panel-muted); font-family: monospace; display: block; }
+    .token-hex {
+      font-family: monospace;
+      font-size: 0.75rem;
+      color: var(--panel-muted);
+      background: var(--panel-surface);
+      border: 1px solid var(--panel-border);
+      border-radius: 4px;
+      padding: 0.2rem 0.4rem;
+      width: 68px;
+      text-align: center;
+    }
+    .token-hex:focus { outline: 1px solid var(--panel-accent); color: var(--panel-text); }
+
+    /* --- Notes --- */
+    .notes-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .note-item {
+      background: var(--panel-surface);
+      border: 1px solid var(--panel-border);
+      border-radius: 8px;
+      padding: 0.625rem 0.75rem;
+      height: 96px;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.15s;
+    }
+    .note-section-name {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--panel-accent);
+      margin-bottom: 0.2rem;
+      flex-shrink: 0;
+    }
+    .note-text {
+      font-size: 0.8125rem;
+      color: var(--panel-muted);
+      font-style: italic;
+      flex: 1;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      line-height: 1.4;
+    }
+    .note-actions {
+      display: flex;
+      gap: 0.375rem;
+      margin-top: 0.4rem;
+      flex-shrink: 0;
+    }
+    .note-btn {
+      font-size: 0.7rem;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      padding: 0.18rem 0.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      border: 1px solid var(--panel-border);
+      background: transparent;
+      color: var(--panel-muted);
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .note-btn:hover { color: var(--panel-text); }
+    .note-btn.edit:hover { color: var(--panel-accent); border-color: var(--panel-accent); }
+    .notes-empty { font-size: 0.8125rem; color: var(--panel-muted); text-align: center; padding: 0.75rem 0; }
+
+    /* --- iframe area --- */
+    .preview { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: #fff; }
+    .preview iframe { width: 100%; flex: 1; border: none; }
+
+    /* --- Modal --- */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 6, 24, 0.75);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .modal-backdrop.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: var(--panel-surface);
+      border: 1px solid var(--panel-border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 24px 48px rgba(0,0,0,0.5);
+      transform: translateY(12px);
+      transition: transform 0.2s;
+    }
+    .modal-backdrop.open .modal { transform: translateY(0); }
+    .modal-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--panel-text);
+      margin-bottom: 0.25rem;
+    }
+    .modal-subtitle { font-size: 0.8125rem; color: var(--panel-muted); margin-bottom: 1rem; }
+    .modal textarea {
+      width: 100%;
+      min-height: 100px;
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 8px;
+      color: var(--panel-text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9375rem;
+      padding: 0.75rem;
+      resize: vertical;
+      line-height: 1.6;
+    }
+    .modal textarea:focus { outline: 2px solid var(--panel-accent); border-color: transparent; }
+    .modal textarea[readonly] { opacity: 0.8; cursor: default; }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1rem; }
+    .modal-cancel {
+      padding: 0.5rem 1rem;
+      background: transparent;
+      border: 1px solid var(--panel-border);
+      border-radius: 8px;
+      color: var(--panel-muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    .modal-cancel:hover { color: var(--panel-text); }
+    .modal-save {
+      padding: 0.5rem 1.25rem;
+      background: var(--panel-accent);
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .modal-save:hover { background: #f06090; }
+    .modal-delete {
+      padding: 0.5rem 1rem;
+      background: transparent;
+      border: 1px solid rgba(248,113,113,0.4);
+      border-radius: 8px;
+      color: #f87171;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      cursor: pointer;
+      margin-right: auto;
+    }
+    .modal-delete:hover { background: rgba(248,113,113,0.1); }
+
+    /* --- Toast --- */
+    .toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: #1a1030;
+      color: #fff;
+      border: 1px solid var(--panel-accent);
+      border-radius: 10px;
+      padding: 0.75rem 1.25rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      z-index: 9999;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.2s, transform 0.2s;
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    /* --- Pickr overrides (dark theme) --- */
+    .pcr-app {
+      background: var(--panel-surface) !important;
+      border: 1px solid var(--panel-border) !important;
+      border-radius: 12px !important;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6) !important;
+    }
+    .pcr-app .pcr-interaction input {
+      background: var(--panel-bg) !important;
+      border: 1px solid var(--panel-border) !important;
+      color: var(--panel-text) !important;
+      border-radius: 6px !important;
+      font-family: monospace !important;
+    }
+    .pcr-app .pcr-interaction input:focus { border-color: var(--panel-accent) !important; outline: none !important; }
+    .pcr-app .pcr-interaction .pcr-save {
+      background: var(--panel-accent) !important;
+      color: white !important;
+      border-radius: 6px !important;
+      font-family: 'DM Sans', sans-serif !important;
+      font-weight: 600 !important;
+    }
+    .pcr-app .pcr-interaction .pcr-save:hover { background: #f06090 !important; }
+    .pcr-app .pcr-interaction .pcr-clear,
+    .pcr-app .pcr-interaction .pcr-cancel {
+      color: var(--panel-muted) !important;
+      background: var(--panel-bg) !important;
+      border: 1px solid var(--panel-border) !important;
+      border-radius: 6px !important;
+    }
+    .pcr-app .pcr-selection .pcr-picker { border-color: white !important; }
+    .pcr-button { width: 28px !important; height: 28px !important; border-radius: 6px !important; border: 2px solid var(--panel-border) !important; }
+    .pcr-button:focus { outline: 2px solid var(--panel-accent) !important; outline-offset: 2px !important; }
   </style>
 </head>
 <body>
-  <div id="main-header"></div>
 
-  <main id="main">
-    <div class="guia">
-      <h1>Guía de Diseño</h1>
-      <p class="subtitle">IS, Art Sport — Referencia para la diseñadora gráfica. Rellena cada sección y envíala para que los cambios se apliquen al código.</p>
-
-      <!-- 1. PALETA -->
-      <h2>1. Paleta de colores</h2>
-      <p>Entregar cada color en formato <strong>HEX</strong> (ej: <code>#E84B7A</code>). Cada token es una variable CSS que controla un aspecto visual de toda la web.</p>
-
-      <div class="swatches">
-        <div class="swatch-item">
-          <div class="swatch-color" style="background:#ffffff; border-bottom:1px solid var(--border);"></div>
-          <div class="swatch-label"><span class="swatch-name">Fondo</span><span class="swatch-hex">#ffffff</span><span class="swatch-var">--bg</span></div>
-        </div>
-        <div class="swatch-item">
-          <div class="swatch-color" style="background:#f5f3ff;"></div>
-          <div class="swatch-label"><span class="swatch-name">Fondo suave</span><span class="swatch-hex">#f5f3ff</span><span class="swatch-var">--bg-soft</span></div>
-        </div>
-        <div class="swatch-item">
-          <div class="swatch-color" style="background:#f0ecff;"></div>
-          <div class="swatch-label"><span class="swatch-name">Superficie</span><span class="swatch-hex">#f0ecff</span><span class="swatch-var">--surface</span></div>
-        </div>
-        <div class="swatch-item">
-          <div class="swatch-color" style="background:#1a1030;"></div>
-          <div class="swatch-label"><span class="swatch-name">Texto</span><span class="swatch-hex">#1a1030</span><span class="swatch-var">--text</span></div>
-        </div>
-        <div class="swatch-item">
-          <div class="swatch-color" style="background:#6b5b8a;"></div>
-          <div class="swatch-label"><span class="swatch-name">Texto secundario</span><span class="swatch-hex">#6b5b8a</span><span class="swatch-var">--text-muted</span></div>
-        </div>
-        <div class="swatch-item">
-          <div class="swatch-color" style="background:#E84B7A;"></div>
-          <div class="swatch-label"><span class="swatch-name">Acento</span><span class="swatch-hex">#E84B7A</span><span class="swatch-var">--accent</span></div>
-        </div>
-        <div class="swatch-item">
-          <div class="swatch-color" style="background:#f06090;"></div>
-          <div class="swatch-label"><span class="swatch-name">Acento hover</span><span class="swatch-hex">#f06090</span><span class="swatch-var">--accent-hover</span></div>
-        </div>
-        <div class="swatch-item">
-          <div class="swatch-color" style="background:#00C9A7;"></div>
-          <div class="swatch-label"><span class="swatch-name">Acento secundario</span><span class="swatch-hex">#00C9A7</span><span class="swatch-var">--accent-secondary</span></div>
-        </div>
-        <div class="swatch-item">
-          <div class="swatch-color" style="background:#e0d8f5; border-bottom:1px solid var(--border);"></div>
-          <div class="swatch-label"><span class="swatch-name">Borde</span><span class="swatch-hex">#e0d8f5</span><span class="swatch-var">--border</span></div>
-        </div>
-      </div>
-
-      <table>
-        <thead><tr><th>Campo</th><th>Variable</th><th>Descripción</th><th>Valor actual</th></tr></thead>
-        <tbody>
-          <tr><td>Fondo principal</td><td><code>--bg</code></td><td>Fondo de toda la página</td><td>#ffffff</td></tr>
-          <tr><td>Fondo suave</td><td><code>--bg-soft</code></td><td>Secciones con ligero contraste, menú móvil</td><td>#f5f3ff</td></tr>
-          <tr><td>Superficie</td><td><code>--surface</code></td><td>Fondo de cards y formularios</td><td>#f0ecff</td></tr>
-          <tr><td>Texto principal</td><td><code>--text</code></td><td>Texto normal, títulos</td><td>#1a1030</td></tr>
-          <tr><td>Texto secundario</td><td><code>--text-muted</code></td><td>Subtítulos, labels, párrafos secundarios</td><td>#6b5b8a</td></tr>
-          <tr><td>Acento principal</td><td><code>--accent</code></td><td>Botones primarios, links, elementos destacados</td><td>#E84B7A</td></tr>
-          <tr><td>Acento hover</td><td><code>--accent-hover</code></td><td>Estado hover del acento</td><td>#f06090</td></tr>
-          <tr><td>Acento secundario</td><td><code>--accent-secondary</code></td><td>Color de apoyo (éxito, detalles)</td><td>#00C9A7</td></tr>
-          <tr><td>Borde</td><td><code>--border</code></td><td>Bordes de cards y separadores</td><td>#e0d8f5</td></tr>
-        </tbody>
-      </table>
-
-      <div class="note"><strong>Nota:</strong> los colores <code>--accent</code> y <code>--accent-hover</code> también se aplican automáticamente a los botones. No hace falta especificarlos por separado.</div>
-
-      <!-- 2. TIPOGRAFÍA -->
-      <h2>2. Tipografía</h2>
-
-      <table>
-        <thead><tr><th>Campo</th><th>Variable</th><th>Uso</th><th>Valor actual</th></tr></thead>
-        <tbody>
-          <tr><td>Fuente de titulares</td><td><code>--font-head</code></td><td>H1, H2, H3, logotipo, botones</td><td>Syne (Google Fonts)</td></tr>
-          <tr><td>Fuente de cuerpo</td><td><code>--font-body</code></td><td>Párrafos, labels, texto general</td><td>DM Sans (Google Fonts)</td></tr>
-        </tbody>
-      </table>
-
-      <p>Si se cambian las fuentes, indicar el <strong>nombre exacto en Google Fonts</strong> y los <strong>pesos necesarios</strong> (ej: 400, 600, 700, 800).</p>
-
-      <!-- 3. LOGOTIPO -->
-      <h2>3. Logotipo</h2>
-
-      <table>
-        <thead><tr><th>Campo</th><th>Formato</th><th>Dónde va</th><th>Tamaño mínimo</th></tr></thead>
-        <tbody>
-          <tr><td>Logo principal</td><td>SVG o PNG transparente</td><td>Header y footer</td><td>200px ancho @2x</td></tr>
-          <tr><td>Logo alternativo</td><td>SVG o PNG transparente</td><td>Fondos oscuros (opcional)</td><td>200px ancho @2x</td></tr>
-        </tbody>
-      </table>
-
-      <!-- 4. IMÁGENES -->
-      <h2>4. Imágenes por sección</h2>
-      <p>Comprimir antes de entregar: <a href="https://squoosh.app" target="_blank" rel="noopener">squoosh.app</a>. Nombrar en minúsculas con guión: <code>hero-fondo.jpg</code>, <code>programa-mensual.jpg</code>.</p>
-
-      <h3>Inicio (<code>index.html</code>) y Programas (<code>programas.html</code>)</h3>
-      <table>
-        <thead><tr><th>Imagen</th><th>Tamaño</th><th>Formato</th></tr></thead>
-        <tbody>
-          <tr><td>Hero — fondo</td><td>1920×1080px mínimo</td><td>JPG / WebP</td></tr>
-          <tr><td>Card programa Mensual</td><td>600×450px</td><td>JPG / WebP</td></tr>
-          <tr><td>Card programa Acceso Autónomo</td><td>600×450px</td><td>JPG / WebP</td></tr>
-          <tr><td>Card programa Implementación Supervisada</td><td>600×450px</td><td>JPG / WebP</td></tr>
-          <tr><td>Card programa Preparación Personalizada</td><td>600×450px</td><td>JPG / WebP</td></tr>
-        </tbody>
-      </table>
-
-      <h3>Quiénes somos (<code>quienes-somos.html</code>)</h3>
-      <p>Hay 2 columnas, cada una con 2 fotos — la segunda aparece al pasar el cursor.</p>
-      <table>
-        <thead><tr><th>Imagen</th><th>Tamaño</th><th>Formato</th></tr></thead>
-        <tbody>
-          <tr><td>Persona 1 — foto principal</td><td>400×600px</td><td>JPG / WebP</td></tr>
-          <tr><td>Persona 1 — foto hover</td><td>400×600px</td><td>JPG / WebP</td></tr>
-          <tr><td>Persona 2 — foto principal</td><td>400×600px</td><td>JPG / WebP</td></tr>
-          <tr><td>Persona 2 — foto hover</td><td>400×600px</td><td>JPG / WebP</td></tr>
-        </tbody>
-      </table>
-
-      <!-- 5. TEXTOS -->
-      <h2>5. Textos a reemplazar</h2>
-      <p>Los textos actuales son placeholders. Indicar el texto definitivo para cada campo.</p>
-
-      <table>
-        <thead><tr><th>Campo</th><th>Placeholder actual</th></tr></thead>
-        <tbody>
-          <tr><td>Tagline hero (mayúsculas)</td><td>"TU TAGLINE EN MAYÚSCULAS"</td></tr>
-          <tr><td>Texto de apoyo hero</td><td>"Texto de apoyo que refuerza el mensaje principal"</td></tr>
-          <tr><td>Descripción hero</td><td>"Descripción breve. IS ofrece programas..."</td></tr>
-          <tr><td>Card "Cómo trabajamos" 01</td><td>Feature uno + descripción</td></tr>
-          <tr><td>Card "Cómo trabajamos" 02</td><td>Feature dos + descripción</td></tr>
-          <tr><td>Card "Cómo trabajamos" 03</td><td>Feature tres + descripción</td></tr>
-          <tr><td>Textos "Quiénes somos"</td><td>Lorem ipsum (2 columnas)</td></tr>
-          <tr><td>Link Instagram</td><td>https://instagram.com/TU_USUARIO</td></tr>
-          <tr><td>URL del dominio</td><td>https://tudominio.com</td></tr>
-        </tbody>
-      </table>
-
-      <!-- 6. MAPA DE PÁGINAS -->
-      <h2>6. Mapa del sitio</h2>
-
-      <div class="page-map">
-        <div class="page-card">
-          <p class="page-name">Inicio</p>
-          <p class="page-file">index.html</p>
-          <p class="page-desc">Hero · Programas · Cómo trabajamos · Contacto</p>
-        </div>
-        <div class="page-card">
-          <p class="page-name">Programas</p>
-          <p class="page-file">programas.html</p>
-          <p class="page-desc">Cards de planes + tabla comparativa de precios</p>
-        </div>
-        <div class="page-card">
-          <p class="page-name">Quiénes somos</p>
-          <p class="page-file">quienes-somos.html</p>
-          <p class="page-desc">Fotos y textos del equipo (hover effect)</p>
-        </div>
-        <div class="page-card">
-          <p class="page-name">Cómo trabajamos</p>
-          <p class="page-file">como-trabajamos.html</p>
-          <p class="page-desc">3 cards con la metodología</p>
-        </div>
-        <div class="page-card">
-          <p class="page-name">Preguntas frecuentes</p>
-          <p class="page-file">preguntas.html</p>
-          <p class="page-desc">Acordeón de FAQs</p>
-        </div>
-        <div class="page-card">
-          <p class="page-name">Contacto</p>
-          <p class="page-file">contacto.html</p>
-          <p class="page-desc">Formulario de contacto + redes sociales</p>
-        </div>
-      </div>
-
-      <!-- 7. COMPONENTES -->
-      <h2>7. Componentes UI</h2>
-      <p>La página usa estos componentes. La estructura es fija; los estilos se controlan con los tokens de color.</p>
-
-      <table>
-        <thead><tr><th>Componente</th><th>Descripción</th><th>Dónde aparece</th></tr></thead>
-        <tbody>
-          <tr><td><code>sl-button</code> primary</td><td>Botón principal — usa <code>--accent</code></td><td>Hero, Programas</td></tr>
-          <tr><td><code>sl-button</code> outline</td><td>Botón secundario con borde — hover en <code>--accent</code></td><td>Hero</td></tr>
-          <tr><td><code>sl-card</code></td><td>Card con borde y fondo — usa <code>--surface</code> y <code>--border</code></td><td>Cómo trabajamos</td></tr>
-          <tr><td><code>ez-section-title</code></td><td>Título centrado de sección</td><td>Inicio de cada sección</td></tr>
-        </tbody>
-      </table>
-
-      <!-- 8. CÓMO ENTREGAR -->
-      <h2>8. Cómo entregar</h2>
-
-      <div class="entrega-opciones">
-        <div class="entrega-card">
-          <p class="opcion">Opción A — Documento</p>
-          <p>Completar esta misma página con los valores y enviarla. Se aplica cada cambio directamente al código.</p>
-        </div>
-        <div class="entrega-card">
-          <p class="opcion">Opción B — Tokens JSON</p>
-          <p>Entregar un archivo <code>tokens.json</code> con los pares variable→valor.</p>
-        </div>
-        <div class="entrega-card">
-          <p class="opcion">Opción C — Figma</p>
-          <p>Compartir el archivo de diseño. Se extraen los valores de los estilos globales.</p>
-        </div>
-      </div>
-
-      <h3>Ejemplo tokens.json</h3>
-      <pre>{
-  "--bg": "#ffffff",
-  "--accent": "#E84B7A",
-  "--accent-hover": "#f06090",
-  "--font-head": "Syne",
-  "--font-body": "DM Sans"
-}</pre>
-
-      <div class="note"><strong>Lo que NO hace falta especificar:</strong> márgenes, espaciados, bordes redondeados, animaciones y layout de las secciones — están definidos en el código y no cambian.</div>
+  <div class="topbar">
+    <span class="topbar-title">✦ Panel de Diseño</span>
+    <select class="topbar-page-select" id="pageSelect">
+      <option value="index.html">Inicio</option>
+      <option value="programas.html">Programas</option>
+      <option value="quienes-somos.html">Quiénes somos</option>
+      <option value="como-trabajamos.html">Cómo trabajamos</option>
+      <option value="preguntas.html">Preguntas</option>
+      <option value="contacto.html">Contacto</option>
+    </select>
+    <div class="topbar-actions">
+      <button class="btn-reset" id="btnResetColors">Resetear colores</button>
+      <button class="btn-reset" id="btnResetNotes">Resetear notas</button>
+      <button class="btn-export" id="btnExport">Exportar JSON</button>
     </div>
-  </main>
+  </div>
 
-  <div id="main-footer"></div>
+  <div class="main">
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <p class="sidebar-section-title">Colores</p>
+        <div class="token-list" id="tokenList"></div>
+      </div>
+      <div class="sidebar-section">
+        <p class="sidebar-section-title">Notas por sección</p>
+        <div class="notes-list" id="notesList">
+          <p class="notes-empty">Haz click en el botón <strong style="color:var(--panel-accent)">+</strong> de cada sección para agregar una nota.</p>
+        </div>
+      </div>
+    </aside>
 
-  <script type="module" src="/src/js/shoelace-setup.js"></script>
-  <script type="module" src="/src/components/index.js"></script>
-  <script type="module" src="/src/js/include-layout.js"></script>
-  <script type="module" src="/src/js/main.js"></script>
+    <div class="preview">
+      <iframe id="preview" src="index.html" title="Vista previa"></iframe>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- Modal de confirmación de reset -->
+  <div class="modal-backdrop" id="resetBackdrop">
+    <div class="modal">
+      <p class="modal-title" id="resetModalTitle">⚠️ ¿Resetear?</p>
+      <p class="modal-subtitle" id="resetModalSubtitle" style="margin-top:0.5rem;line-height:1.6;"></p>
+      <div class="modal-actions" style="margin-top:1.25rem;">
+        <button class="modal-cancel" id="resetCancel">Cancelar</button>
+        <button class="modal-save" id="resetConfirm" style="background:#f87171;">Sí, resetear</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de nota (editar / ver) -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal">
+      <p class="modal-title" id="modalTitle">Nota de sección</p>
+      <p class="modal-subtitle" id="modalSubtitle"></p>
+      <textarea id="modalTextarea" placeholder="Escribe tu nota aquí..."></textarea>
+      <div class="modal-actions">
+        <button class="modal-delete" id="modalDelete" style="display:none">Eliminar nota</button>
+        <button class="modal-cancel" id="modalCancel">Cerrar</button>
+        <button class="modal-save" id="modalSave">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import Pickr from '@simonwep/pickr';
+    import '@simonwep/pickr/dist/themes/classic.min.css';
+
+    const TOKENS = [
+      { label: 'Fondo principal',    token: '--bg',               default: '#ffffff' },
+      { label: 'Fondo suave',        token: '--bg-soft',          default: '#f5f3ff' },
+      { label: 'Superficie / cards', token: '--surface',          default: '#f0ecff' },
+      { label: 'Texto principal',    token: '--text',             default: '#1a1030' },
+      { label: 'Texto secundario',   token: '--text-muted',       default: '#6b5b8a' },
+      { label: 'Acento principal',   token: '--accent',           default: '#E84B7A' },
+      { label: 'Acento hover',       token: '--accent-hover',     default: '#f06090' },
+      { label: 'Acento secundario',  token: '--accent-secondary', default: '#00C9A7' },
+      { label: 'Borde',              token: '--border',           default: '#e0d8f5' },
+    ];
+
+    const pageStates = {};
+    let currentPage = 'index.html';
+
+    function getPageState(page) {
+      if (!pageStates[page]) {
+        pageStates[page] = {
+          tokens: Object.fromEntries(TOKENS.map(t => [t.token, t.default])),
+          notes: {}
+        };
+      }
+      return pageStates[page];
+    }
+
+    const iframe     = document.getElementById('preview');
+    const tokenList  = document.getElementById('tokenList');
+    const notesList  = document.getElementById('notesList');
+    const toast      = document.getElementById('toast');
+
+    // --- Render token controls with Pickr ---
+    function renderTokens() {
+      tokenList.innerHTML = '';
+      const ps = getPageState(currentPage);
+      TOKENS.forEach(({ label, token }) => {
+        const value = ps.tokens[token];
+
+        const row = document.createElement('div');
+        row.className = 'token-row';
+
+        // Swatch (Pickr mounts here)
+        const swatchEl = document.createElement('div');
+        swatchEl.className = 'token-swatch';
+
+        const info = document.createElement('div');
+        info.className = 'token-info';
+        info.innerHTML = `<span class="token-name">${label}</span><span class="token-var">${token}</span>`;
+
+        const hexInput = document.createElement('input');
+        hexInput.className = 'token-hex';
+        hexInput.value = value;
+        hexInput.maxLength = 7;
+        hexInput.spellcheck = false;
+
+        row.appendChild(swatchEl);
+        row.appendChild(info);
+        row.appendChild(hexInput);
+        tokenList.appendChild(row);
+
+        // Init Pickr
+        const pickr = Pickr.create({
+          el: swatchEl,
+          theme: 'classic',
+          default: value,
+          appClass: 'pcr-dark',
+          components: {
+            preview: true,
+            opacity: false,
+            hue: true,
+            interaction: { hex: true, input: true, save: true }
+          }
+        });
+
+        function applyHex(hex) {
+          if (!/^#[0-9a-fA-F]{6}$/.test(hex)) return;
+          getPageState(currentPage).tokens[token] = hex;
+          hexInput.value = hex;
+          pickr.setColor(hex, true);
+          sendToken(token, hex);
+        }
+
+        pickr.on('save', (color) => {
+          if (!color) return;
+          const hex = color.toHEXA().toString().slice(0, 7);
+          applyHex(hex);
+          pickr.hide();
+        });
+
+        hexInput.addEventListener('change', () => applyHex(hexInput.value.trim()));
+
+        // Keep hex input in sync while user drags
+        pickr.on('change', (color) => {
+          if (!color) return;
+          hexInput.value = color.toHEXA().toString().slice(0, 7);
+        });
+      });
+    }
+
+    // --- Notes ---
+    function renderNotes() {
+      const entries = Object.entries(getPageState(currentPage).notes).filter(([, v]) => v);
+      if (!entries.length) {
+        notesList.innerHTML = '<p class="notes-empty">Haz click en el botón <strong style="color:var(--panel-accent)">+</strong> de cada sección para agregar una nota.</p>';
+        return;
+      }
+      notesList.innerHTML = '';
+      entries.forEach(([id, note]) => {
+        const item = document.createElement('div');
+        item.className = 'note-item';
+        item.innerHTML = `
+          <p class="note-section-name">${id}</p>
+          <p class="note-text">"${note}"</p>
+          <div class="note-actions">
+            <button class="note-btn view">👁 Ver</button>
+            <button class="note-btn edit">✏ Editar</button>
+          </div>`;
+        item.querySelector('.view').addEventListener('click', () => openModal(id, note, true));
+        item.querySelector('.edit').addEventListener('click', () => openModal(id, note, false));
+        notesList.appendChild(item);
+      });
+    }
+
+    // --- iframe communication ---
+    function sendToken(token, value) {
+      iframe.contentWindow?.postMessage({ type: 'SET_TOKEN', token, value }, '*');
+    }
+
+    function sendAllTokens() {
+      const ps = getPageState(currentPage);
+      iframe.contentWindow?.postMessage({ type: 'SET_ALL_TOKENS', tokens: ps.tokens }, '*');
+      iframe.contentWindow?.postMessage({ type: 'SHOW_NOTES', notes: ps.notes }, '*');
+    }
+
+    iframe.addEventListener('load', () => setTimeout(sendAllTokens, 100));
+
+    // --- Modal ---
+    const modalBackdrop  = document.getElementById('modalBackdrop');
+    const modalTitle     = document.getElementById('modalTitle');
+    const modalSubtitle  = document.getElementById('modalSubtitle');
+    const modalTextarea  = document.getElementById('modalTextarea');
+    const modalSave      = document.getElementById('modalSave');
+    const modalCancel    = document.getElementById('modalCancel');
+    const modalDelete    = document.getElementById('modalDelete');
+    let   modalSectionId = null;
+
+    function openModal(sectionId, current, readOnly = false) {
+      modalSectionId = sectionId;
+      modalTitle.textContent = `Nota — ${sectionId}`;
+      modalTextarea.value = current || '';
+      modalTextarea.readOnly = readOnly;
+
+      if (readOnly) {
+        modalSubtitle.textContent = 'Vista de solo lectura.';
+        modalSave.style.display = 'none';
+        modalDelete.style.display = 'none';
+        modalCancel.textContent = 'Cerrar';
+      } else {
+        modalSubtitle.textContent = current ? 'Edita o elimina la nota.' : 'Agrega una nota para esta sección.';
+        modalSave.style.display = '';
+        modalDelete.style.display = current ? '' : 'none';
+        modalCancel.textContent = 'Cancelar';
+      }
+
+      modalBackdrop.classList.add('open');
+      if (!readOnly) setTimeout(() => modalTextarea.focus(), 50);
+    }
+
+    function closeModal() {
+      modalBackdrop.classList.remove('open');
+      modalSectionId = null;
+    }
+
+    function saveNote(note) {
+      if (!modalSectionId) return;
+      getPageState(currentPage).notes[modalSectionId] = note;
+      iframe.contentWindow?.postMessage({ type: 'NOTE_SAVED', sectionId: modalSectionId, note }, '*');
+      renderNotes();
+      closeModal();
+    }
+
+    modalSave.addEventListener('click', () => saveNote(modalTextarea.value.trim()));
+    modalDelete.addEventListener('click', () => saveNote(''));
+    modalCancel.addEventListener('click', closeModal);
+    modalBackdrop.addEventListener('click', (e) => { if (e.target === modalBackdrop) closeModal(); });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+        resetBackdrop.classList.remove('open');
+      }
+    });
+
+    window.addEventListener('message', ({ data }) => {
+      if (data?.type === 'OPEN_NOTE_MODAL') openModal(data.sectionId, data.current);
+    });
+
+    // --- Page selector ---
+    document.getElementById('pageSelect').addEventListener('change', (e) => {
+      currentPage = e.target.value;
+      iframe.src = currentPage;
+      renderTokens();
+      renderNotes();
+    });
+
+    // --- Reset (con confirmación) ---
+    const resetBackdrop   = document.getElementById('resetBackdrop');
+    const resetModalTitle = document.getElementById('resetModalTitle');
+    const resetModalSub   = document.getElementById('resetModalSubtitle');
+    let   resetMode       = null; // 'colors' | 'notes'
+
+    function openResetModal(mode) {
+      resetMode = mode;
+      if (mode === 'colors') {
+        resetModalTitle.textContent = '⚠️ ¿Resetear los colores?';
+        resetModalSub.textContent   = 'Se perderán todos los cambios de color. Las notas no se borran.';
+      } else {
+        resetModalTitle.textContent = '⚠️ ¿Resetear las notas?';
+        resetModalSub.textContent   = 'Se eliminarán todas las notas de las secciones. Los colores no cambian.';
+      }
+      resetBackdrop.classList.add('open');
+    }
+
+    document.getElementById('btnResetColors').addEventListener('click', () => openResetModal('colors'));
+    document.getElementById('btnResetNotes').addEventListener('click',  () => openResetModal('notes'));
+
+    document.getElementById('resetCancel').addEventListener('click', () => {
+      resetBackdrop.classList.remove('open');
+    });
+
+    document.getElementById('resetConfirm').addEventListener('click', () => {
+      const ps = getPageState(currentPage);
+      if (resetMode === 'colors') {
+        TOKENS.forEach(t => { ps.tokens[t.token] = t.default; });
+        renderTokens();
+        sendAllTokens();
+        showToast('Colores reseteados');
+      } else {
+        Object.keys(ps.notes).forEach(k => delete ps.notes[k]);
+        iframe.contentWindow?.postMessage({ type: 'SHOW_NOTES', notes: {} }, '*');
+        renderNotes();
+        showToast('Notas eliminadas');
+      }
+      resetBackdrop.classList.remove('open');
+    });
+
+    resetBackdrop.addEventListener('click', (e) => {
+      if (e.target === resetBackdrop) resetBackdrop.classList.remove('open');
+    });
+
+    // --- Export ---
+    document.getElementById('btnExport').addEventListener('click', () => {
+      const ps = getPageState(currentPage);
+      const json = JSON.stringify({ page: currentPage, tokens: ps.tokens, notes: ps.notes }, null, 2);
+      const blob = new Blob([json], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'is-design-tokens.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('JSON exportado ✓');
+    });
+
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    // --- Init ---
+    renderTokens();
+    renderNotes();
+  </script>
 </body>
 </html>
